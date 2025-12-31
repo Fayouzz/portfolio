@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode .social-links a {
+            color: #e0e0e0;
+        }
+
+        .social-links a:hover {
+            color: #0066cc;
+        }
+
+        body.dark-mode .social-links a:hover {
+            color: #4da6ff;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode nav {
+            border-bottom-color: #333;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 16px;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+
+        body.dark-mode nav button {
+            color: #e0e0e0;
+        }
+
+        nav button:hover {
+            background: #f5f5f5;
+        }
+
+        body.dark-mode nav button:hover {
+            background: #2d2d2d;
+        }
+
+        nav button.active {
+            background: #0066cc;
+            color: white;
+        }
+
+        body.dark-mode nav button.active {
+            background: #4da6ff;
+            color: #1a1a1a;
+        }
+
+        /* Sections */
+        .section {
+            padding: 40px 0;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        /* About Me */
+        .about-content p {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        body.dark-mode .about-content p {
+            color: #b0b0b0;
+        }
+
+        /* Projects */
+        .project {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .project {
+            border-bottom-color: #333;
+        }
+
+        .project:last-child {
+            border-bottom: none;
+        }
+
+        .project h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .project p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        body.dark-mode .project p {
+            color: #999;
+        }
+
+        .project .description {
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        body.dark-mode .project .description {
+            color: #999;
+        }
+
+        .project .description img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: block;
+        }
+
+        .project .description a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+
+        body.dark-mode .project .description a {
+            color: #4da6ff;
+        }
+
+        .project-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        body.dark-mode .project-link {
+            color: #4da6ff;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Blogs */
+        .blog-controls {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        body.dark-mode .blog-controls {
+            background: #2d2d2d;
+        }
+
+        .blog-controls h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .blog-controls input,
+        .blog-controls textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: white;
+            color: #333;
+        }
+
+        body.dark-mode .blog-controls input,
+        body.dark-mode .blog-controls textarea {
+            background: #1a1a1a;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        .blog-controls textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .editor-toolbar button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .editor-toolbar button:hover {
+            background: #0052a3;
+        }
+
+        body.dark-mode .editor-toolbar button {
+            background: #4da6ff;
+            color: #1a1a1a;
+        }
+
+        body.dark-mode .editor-toolbar button:hover {
+            background: #3d96e6;
+        }
+
+        .blog-controls #publishBtn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .blog-controls #publishBtn:hover {
+            background: #218838;
+        }
+
+        .blog-list {
+            margin-top: 40px;
+        }
+
+        .blog-post {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .blog-post {
+            border-bottom-color: #333;
+        }
+
+        .blog-post:last-child {
+            border-bottom: none;
+        }
+
+        .blog-post h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        body.dark-mode .blog-post h3 {
+            color: #f0f0f0;
+        }
+
+        .blog-post .date {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        body.dark-mode .blog-post .date {
+            color: #666;
+        }
+
+        .blog-post .content {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        body.dark-mode .blog-post .content {
+            color: #b0b0b0;
+        }
+
+        .blog-post .content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: block;
+        }
+
+        .blog-post .content a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+
+        body.dark-mode .blog-post .content a {
+            color: #4da6ff;
+        }
+
+        .blog-post .content a:hover {
+            color: #0052a3;
+        }
+
+        body.dark-mode .blog-post .content a:hover {
+            color: #3d96e6;
+        }
+
+        .blog-post .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .blog-post .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .project .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .project .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .no-blogs, .no-projects {
+            text-align: center;
+            color: #999;
+            padding: 40px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #999;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+
+        body.dark-mode footer {
+            color: #666;
+            border-top-color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav button {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    
+    <div class="container">
+        <header>
+            <h1>Your Name</h1>
+            <p class="tagline">Designer / Developer / Creator</p>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+                <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+            </div>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-section="about">About Me</button>
+            <button class="nav-btn" data-section="projects">Projects</button>
+            <button class="nav-btn" data-section="blogs">Blogs</button>
+        </nav>
+
+        <!-- About Me Section -->
+        <section class="section active" id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>Hello! I'm a passionate designer and developer focused on creating beautiful, functional experiences. I love working on projects that challenge me to learn and grow.</p>
+                <p>Currently based in [Your Location], I'm always interested in collaborating on interesting projects and connecting with creative people.</p>
+                <p>When I'm not coding or designing, you can find me exploring new technologies, contributing to open source, or sharing my knowledge through blog posts.</p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <h2>Projects</h2>
+            
+            <div class="blog-controls">
+                <h3>Add a New Project</h3>
+                <input type="text" id="projectTitle" placeholder="Project Title">
+                
+                <div class="editor-toolbar">
+                    <button type="button" onclick="insertProjectLink()">🔗 Add Link</button>
+                    <button type="button" onclick="insertProjectImage()">🖼️ Add Image</button>
+                    <button type="button" onclick="makeProjectBold()"><strong>B</strong> Bold</button>
+                    <button type="button" onclick="makeProjectItalic()"><em>I</em> Italic</button>
+                </div>
+                
+                <textarea id="projectDescription" placeholder="Describe your project..."></textarea>
+                <input type="text" id="projectUrl" placeholder="Project URL (optional, e.g., https://github.com/username/project)">
+                <button id="addProjectBtn">Add Project</button>
+            </div>
+
+            <div id="projectList"></div>
+        </section>
+
+        <!-- Blogs Section -->
+        <section class="section" id="blogs">
+            <h2>Blogs</h2>
+            
+            <div class="blog-controls">
+                <h3>Write a New Blog Post</h3>
+                <input type="text" id="blogTitle" placeholder="Blog Title">
+                
+                <div class="editor-toolbar">
+                    <button type="button" onclick="insertLink()">🔗 Add Link</button>
+                    <button type="button" onclick="insertImage()">🖼️ Add Image</button>
+                    <button type="button" onclick="makeBold()"><strong>B</strong> Bold</button>
+                    <button type="button" onclick="makeItalic()"><em>I</em> Italic</button>
+                </div>
+                
+                <textarea id="blogContent" placeholder="Write your blog content here..."></textarea>
+                <button id="publishBtn">Publish Blog</button>
+            </div>
+
+            <div class="blog-list" id="blogList">
+                <div class="no-blogs">No blogs yet. Write your first blog post above!</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Your Name. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Load theme preference
+        async function loadTheme() {
+            try {
+                const result = await window.storage.get('portfolio-theme');
+                if (result && result.value === 'dark') {
+                    body.classList.add('dark-mode');
+                    themeToggle.textContent = '☀️';
+                }
+            } catch (error) {
+                console.log('No theme preference found');
+            }
+        }
+
+        // Toggle theme
+        themeToggle.addEventListener('click', async () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+            
+            try {
+                await window.storage.set('portfolio-theme', isDark ? 'dark' : 'light');
+            } catch (error) {
+                console.error('Error saving theme:', error);
+            }
+        });
+
+        // Navigation
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetSection = btn.getAttribute('data-section');
+                
+                navBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                sections.forEach(s => s.classList.remove('active'));
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+
+        // Blog functionality
+        const blogTitle = document.getElementById('blogTitle');
+        const blogContent = document.getElementById('blogContent');
+        const publishBtn = document.getElementById('publishBtn');
+        const blogList = document.getElementById('blogList');
+
+        // Project functionality
+        const projectTitle = document.getElementById('projectTitle');
+        const projectDescription = document.getElementById('projectDescription');
+        const projectUrl = document.getElementById('projectUrl');
+        const addProjectBtn = document.getElementById('addProjectBtn');
+        const projectList = document.getElementById('projectList');
+
+        let blogs = [];
+        let projects = [];
+
+        // Editor functions
+        window.insertLink = function() {
+            const url = prompt('Enter the URL (e.g., https://example.com):');
+            if (!url) return;
+            
+            const text = prompt('Enter the link text:');
+            if (!text) return;
+            
+            const link = `<a href="${url}" target="_blank">${text}</a>`;
+            insertAtCursor(link);
+        };
+
+        window.insertImage = function() {
+            const url = prompt('Enter the image URL (e.g., https://example.com/image.jpg):');
+            if (!url) return;
+            
+            const alt = prompt('Enter image description (optional):') || 'Image';
+            
+            const img = `<img src="${url}" alt="${alt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0;">`;
+            insertAtCursor(img);
+        };
+
+        window.makeBold = function() {
+            const text = prompt('Enter text to make bold:');
+            if (!text) return;
+            
+            const bold = `<strong>${text}</strong>`;
+            insertAtCursor(bold);
+        };
+
+        window.makeItalic = function() {
+            const text = prompt('Enter text to make italic:');
+            if (!text) return;
+            
+            const italic = `<em>${text}</em>`;
+            insertAtCursor(italic);
+        };
+
+        function insertAtCursor(text) {
+            const textarea = blogContent;
+            const startPos = textarea.selectionStart;
+            const endPos = textarea.selectionEnd;
+            const textBefore = textarea.value.substring(0, startPos);
+            const textAfter = textarea.value.substring(endPos);
+            
+            textarea.value = textBefore + text + textAfter;
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
+        }
+
+        // Project editor functions
+        window.insertProjectLink = function() {
+            const url = prompt('Enter the URL (e.g., https://example.com):');
+            if (!url) return;
+            
+            const text = prompt('Enter the link text:');
+            if (!text) return;
+            
+            const link = `<a href="${url}" target="_blank">${text}</a>`;
+            insertAtProjectCursor(link);
+        };
+
+        window.insertProjectImage = function() {
+            const url = prompt('Enter the image URL (e.g., https://example.com/image.jpg):');
+            if (!url) return;
+            
+            const alt = prompt('Enter image description (optional):') || 'Image';
+            
+            const img = `<img src="${url}" alt="${alt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0;">`;
+            insertAtProjectCursor(img);
+        };
+
+        window.makeProjectBold = function() {
+            const text = prompt('Enter text to make bold:');
+            if (!text) return;
+            
+            const bold = `<strong>${text}</strong>`;
+            insertAtProjectCursor(bold);
+        };
+
+        window.makeProjectItalic = function() {
+            const text = prompt('Enter text to make italic:');
+            if (!text) return;
+            
+            const italic = `<em>${text}</em>`;
+            insertAtProjectCursor(italic);
+        };
+
+        function insertAtProjectCursor(text) {
+            const textarea = projectDescription;
+            const startPos = textarea.selectionStart;
+            const endPos = textarea.selectionEnd;
+            const textBefore = textarea.value.substring(0, startPos);
+            const textAfter = textarea.value.substring(endPos);
+            
+            textarea.value = textBefore + text + textAfter;
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
+        }
+
+        // Load blogs from storage
+        async function loadBlogs() {
+            try {
+                const result = await window.storage.get('portfolio-blogs');
+                if (result && result.value) {
+                    blogs = JSON.parse(result.value);
+                    renderBlogs();
+                }
+            } catch (error) {
+                console.log('No existing blogs found');
+            }
+        }
+
+        // Load projects from storage
+        async function loadProjects() {
+            try {
+                const result = await window.storage.get('portfolio-projects');
+                if (result && result.value) {
+                    projects = JSON.parse(result.value);
+                    renderProjects();
+                }
+            } catch (error) {
+                console.log('No existing projects found');
+            }
+        }
+
+        // Save blogs to storage
+        async function saveBlogs() {
+            try {
+                await window.storage.set('portfolio-blogs', JSON.stringify(blogs));
+            } catch (error) {
+                console.error('Error saving blogs:', error);
+                alert('Failed to save blog. Please try again.');
+            }
+        }
+
+        // Save projects to storage
+        async function saveProjects() {
+            try {
+                await window.storage.set('portfolio-projects', JSON.stringify(projects));
+            } catch (error) {
+                console.error('Error saving projects:', error);
+                alert('Failed to save project. Please try again.');
+            }
+        }
+
+        // Render blogs
+        function renderBlogs() {
+            if (blogs.length === 0) {
+                blogList.innerHTML = '<div class="no-blogs">No blogs yet. Write your first blog post above!</div>';
+                return;
+            }
+
+            blogList.innerHTML = blogs.map((blog, index) => `
+                <div class="blog-post">
+                    <h3>${escapeHtml(blog.title)}</h3>
+                    <div class="date">${blog.date}</div>
+                    <div class="content">${blog.content}</div>
+                    <button class="delete-btn" onclick="deleteBlog(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Escape HTML for title to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Render projects
+        function renderProjects() {
+            if (projects.length === 0) {
+                projectList.innerHTML = '<div class="no-projects">No projects yet. Add your first project above!</div>';
+                return;
+            }
+
+            projectList.innerHTML = projects.map((project, index) => `
+                <div class="project">
+                    <h3>${escapeHtml(project.title)}</h3>
+                    <div class="description">${project.description}</div>
+                    ${project.url ? `<a href="${escapeHtml(project.url)}" target="_blank" class="project-link">View Project →</a>` : ''}
+                    <button class="delete-btn" onclick="deleteProject(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Publish blog
+        publishBtn.addEventListener('click', async () => {
+            const title = blogTitle.value.trim();
+            const content = blogContent.value.trim();
+
+            if (!title || !content) {
+                alert('Please enter both title and content');
+                return;
+            }
+
+            const newBlog = {
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }),
+                timestamp: Date.now()
+            };
+
+            blogs.unshift(newBlog);
+            await saveBlogs();
+            renderBlogs();
+
+            blogTitle.value = '';
+            blogContent.value = '';
+            
+            alert('Blog published successfully!');
+        });
+
+        // Delete blog
+        window.deleteBlog = async function(index) {
+            if (confirm('Are you sure you want to delete this blog post?')) {
+                blogs.splice(index, 1);
+                await saveBlogs();
+                renderBlogs();
+            }
+        };
+
+        // Add project
+        addProjectBtn.addEventListener('click', async () => {
+            const title = projectTitle.value.trim();
+            const description = projectDescription.value.trim();
+            const url = projectUrl.value.trim();
+
+            if (!title || !description) {
+                alert('Please enter both title and description');
+                return;
+            }
+
+            const newProject = {
+                title: title,
+                description: description,
+                url: url || '',
+                timestamp: Date.now()
+            };
+
+            projects.unshift(newProject);
+            await saveProjects();
+            renderProjects();
+
+            projectTitle.value = '';
+            projectDescription.value = '';
+            projectUrl.value = '';
+            
+            alert('Project added successfully!');
+        });
+
+        // Delete project
+        window.deleteProject = async function(index) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                projects.splice(index, 1);
+                await saveProjects();
+                renderProjects();
+            }
+        };
+
+        // Load blogs on page load
+        loadTheme();
+        loadBlogs();
+        loadProjects();
+    </script>
+</body>
+</html>
